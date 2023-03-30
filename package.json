@@ -18,7 +18,7 @@
     "react-icons": "^4.8.0",
     "xstate": "^4.37.1"
   },
-  "homepage": "https://github.com/KortexCode/Rick-and-Morty-APP",
+  "homepage": "https://github.com/KortexCode/aireplane-tikects-stateMachine",
   "devDependencies": {
     "@babel/core": "^7.21.0",
     "@babel/preset-env": "^7.20.2",
