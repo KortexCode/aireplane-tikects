@@ -5,7 +5,7 @@ const tikectMachine = createMachine(
     {
         id:"buy plane tikects",
         initial: "initial",
-        state: {
+        states: {
             initial: {
                 on: {
                     START: "search",
@@ -15,6 +15,17 @@ const tikectMachine = createMachine(
                 on: {
                     CONTINUE: "passenger",
                     CANCEL: "initial"
+                }
+            },
+            passenger:{
+                on: {
+                    DONE: "tikects",
+                    CANCEL: "initial"
+                }
+            },
+            tikects: {
+                on:{
+                    FINISH:"initial"
                 }
             }
         }
