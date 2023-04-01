@@ -1,10 +1,10 @@
 import React from 'react';
-import '@styles/Tikects.css';
+import '@styles/Tickets.css';
 
 
 export const Tickets = ({ send, context }) => {
   const finish = () => {
-    console.log('finish');
+    send("FINISH")
   };
 
   return (

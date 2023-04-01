@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './Search.css';
 import '@styles/Search.css';
 
 export const Search = ({ send, context }) => {
@@ -8,6 +7,10 @@ export const Search = ({ send, context }) => {
   const handleSelectChange = (event) => {
     setFlight(event.target.value);
   };
+  const goToPassenger = () => {  
+    send("CONTINUE", {selectedCountry: flight});
+
+  }
 
   const options = ['Mexico', 'Venezuela', 'Colombia'];
 
@@ -18,7 +21,11 @@ export const Search = ({ send, context }) => {
         <option value="" disabled defaultValue>Escoge un país</option>
         {options.map((option) => <option value={option} key={option}>{option}</option>)}
       </select>
-      <button disabled={flight === ''} className='Search-continue button'>Continuar</button>
+      <button disabled={flight === ''} className='Search-continue button'
+        onClick={goToPassenger}
+      >
+        Continuar
+      </button>
     </div>
   );
 }; 

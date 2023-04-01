@@ -6,3 +6,10 @@
 .Welcome-cancel {
   margin-left: auto;
 }
+
+.button {
+  padding: 6px 7px 6px 7px;
+  border-radius: 8px;
+  color: white;
+  background-color: #4F54A7;
+}

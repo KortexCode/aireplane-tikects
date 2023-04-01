@@ -7,9 +7,12 @@ import '@styles/StepsLayout.css';
 
 export const StepsLayout = ({ state, send }) => {
   const renderContent = () => {
-    return <Welcome />;
-  };
-
+    return state.matches("initial") ? <Welcome send={send}/> 
+    : state.matches("search") ? <Search send={send}/> 
+    : state.matches("passenger") ? <Passengers state={state} send={send}/>
+    : state.matches("tickets") ? <Tickets send={send}/> 
+    : null;
+  }
   return (
     <div className='StepsLayout'>
       {renderContent()}
