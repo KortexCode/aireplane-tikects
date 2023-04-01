@@ -10,7 +10,7 @@ export const BaseLayout = () => {
   const [state, send] = useMachine(ticketMachine);
 
   console.log('nuestra maquina', state);
-  console.log("contexto", state.context)
+  console.log('nuestra context', state.context);
  
   return (
     <div className='BaseLayout'>

@@ -1,5 +1,43 @@
+import { fetchCountries } from "../utils/countryApi";
+
 const { createMachine, assign } = require("xstate");
 
+//children Machine
+const fillCountries = {
+    initial: "loading",
+    states: {
+        loading: {
+            invoke: {
+                id: "getCountries",
+                src: ()=> fetchCountries,
+                onDone:{
+                    target: "success",
+                    actions: assign(
+                        {
+                            countries: (context, event) => {console.log(event); return event.data},
+                        }
+                    )
+                },
+                onError: {
+                    target: "failure",
+                    actions: assign(
+                        {
+                            error: "Fallo el request",
+                        }
+                    )
+
+                }
+
+            }
+        },
+        success: {},
+        failure: {
+            on: {
+                RETRY: {target: "loading"},
+            },
+        },
+    },
+}
 
 const ticketMachine = createMachine(
     {
@@ -9,6 +47,8 @@ const ticketMachine = createMachine(
         context: {
             passenger: [],
             selectedCountry: "",
+            countries: [],
+            error: "",
         },
         states: {
             initial: {
@@ -33,28 +73,17 @@ const ticketMachine = createMachine(
                     },
                     CANCEL: {
                         target: "initial",
-                        actions: assign(
-                            {
-                                selectedCountry: (context, event) => event.selectedCountry,
-                                passenger:(context, event) => event.newPassenger,
-
-                            }
-                        )
+                        actions: "cleanContext",
                     }
-                }
+                },
+                ...fillCountries,
             },
             passenger:{
                 on: {
                     DONE: "tickets",
                     CANCEL: {
                         target: "initial",
-                        actions: assign(
-                            {
-                                selectedCountry: (context, event) => event.selectedCountry,
-                                passenger:(context, event) => event.newPassenger,
-
-                            }
-                        )
+                        actions: "cleanContext",
                     },
                     ADD: {
                         target: "passenger",
@@ -66,7 +95,10 @@ const ticketMachine = createMachine(
             },
             tickets: {
                 on:{
-                    FINISH:"initial"
+                    FINISH: {
+                        target: "initial",
+                        actions: "clearContext",
+                    }
                 }
             }
         } 
@@ -76,6 +108,18 @@ const ticketMachine = createMachine(
             imprintInitial: ()=> console.log("a bestia"),
             imprintEntry: ()=> console.log("Entrada!!"),
             imprintExit: ()=> console.log("Salida!"),
+            cleanContext: ()=>  assign(
+                {
+                    selectedCountry: (context, event) => event.selectedCountry,
+                    passenger:(context, event) => event.newPassenger,  
+                }
+            ),
+            clearContext: ()=>  assign(
+                {
+                    selectedCountry: "",
+                    passenger:[],  
+                }
+            )
         },
     },
 )
