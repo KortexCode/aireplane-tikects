@@ -10,7 +10,7 @@ export const StepsLayout = ({ state, send }) => {
     return state.matches("initial") ? <Welcome send={send}/> 
     : state.matches("search") ? <Search context={state.context} send={send}/> 
     : state.matches("passenger") ? <Passengers state={state} send={send}/>
-    : state.matches("tickets") ? <Tickets send={send}/> 
+    : state.matches("tickets") ? <Tickets send={send} context={state.context}/> 
     : null;
   }
   return (

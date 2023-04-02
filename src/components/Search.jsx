@@ -14,9 +14,6 @@ export const Search = ({ send, context }) => {
 
   const options = context.countries;
 
-  useEffect(()=>{
-    console.log("paises", context.countries[1]?.name)
-  },[context])
   return (
     <div className='Search'>
       <p className='Search-title title'>Busca tu destino</p>

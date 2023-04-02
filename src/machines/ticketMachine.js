@@ -25,9 +25,7 @@ const fillCountries = {
                             error: "Fallo el request",
                         }
                     )
-
                 }
-
             }
         },
         success: {},
@@ -55,19 +53,21 @@ const ticketMachine = createMachine(
                 on: {
                     START: {
                         target: "search",
-                        actions: "imprintInitial"
+                       /*  actions: "imprintInitial" */
                     }
                 }
             },
             search: {
-                entry:"imprintEntry",
-                exit:"imprintExit",
+               /*  entry:"imprintEntry",
+                exit:"imprintExit", */
                 on: {
                     CONTINUE: {
                         target: "passenger",
                         actions: assign(
                             {
-                                selectedCountry: (context, event) => event.selectedCountry,
+                                selectedCountry: (context, event) => {
+                                    return event.selectedCountry
+                                },
                             }
                         )
                     },
@@ -80,7 +80,10 @@ const ticketMachine = createMachine(
             },
             passenger:{
                 on: {
-                    DONE: "tickets",
+                    DONE: {
+                        target: "tickets",
+                        cond: 'moreThanOnePassenger'
+                      },
                     CANCEL: {
                         target: "initial",
                         actions: "cleanContext",
@@ -94,33 +97,47 @@ const ticketMachine = createMachine(
                 }
             },
             tickets: {
+                after: {
+                    5000:{
+                        target:"initial",
+                        actions:"clearContext",
+                    }
+                },
                 on:{
                     FINISH: {
                         target: "initial",
                         actions: "clearContext",
-                    }
+                    },
                 }
             }
         } 
     },
     {
         actions:{
-            imprintInitial: ()=> console.log("a bestia"),
+            /* imprintInitial: ()=> console.log("a bestia"),
             imprintEntry: ()=> console.log("Entrada!!"),
-            imprintExit: ()=> console.log("Salida!"),
-            cleanContext: ()=>  assign(
+            imprintExit: ()=> console.log("Salida!"), */
+            cleanContext: assign(
                 {
-                    selectedCountry: (context, event) => event.selectedCountry,
+                    selectedCountry: (context, event) => {
+                        console.log("dato que llega", event.selectedCountry)
+                        return event.selectedCountry
+                    },
                     passenger:(context, event) => event.newPassenger,  
                 }
             ),
-            clearContext: ()=>  assign(
+            clearContext: assign(
                 {
                     selectedCountry: "",
                     passenger:[],  
                 }
             )
         },
+        guards: {
+            moreThanOnePassenger: (context)=> {
+                return context.passenger.length > 0;
+            }
+        }
     },
 )
 
