@@ -53,13 +53,13 @@ const ticketMachine = createMachine(
                 on: {
                     START: {
                         target: "search",
-                       /*  actions: "imprintInitial" */
+                        actions: "imprintInitial"
                     }
                 }
             },
             search: {
-               /*  entry:"imprintEntry",
-                exit:"imprintExit", */
+                entry:"imprintEntry",
+                exit:"imprintExit",
                 on: {
                     CONTINUE: {
                         target: "passenger",
@@ -114,9 +114,9 @@ const ticketMachine = createMachine(
     },
     {
         actions:{
-            /* imprintInitial: ()=> console.log("a bestia"),
+            imprintInitial: ()=> console.log("a bestia"),
             imprintEntry: ()=> console.log("Entrada!!"),
-            imprintExit: ()=> console.log("Salida!"), */
+            imprintExit: ()=> console.log("Salida!"),
             cleanContext: assign(
                 {
                     selectedCountry: (context, event) => {
