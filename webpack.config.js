@@ -22,9 +22,10 @@ module.exports = {
     resolve: {//Con que extensiones va a trabajar webpack
         extensions:[".js", ".jsx"],
         alias: {
-            "@pages": path.resolve(__dirname, "src/pages"),
             "@components": path.resolve(__dirname, "src/components"),
             "@styles": path.resolve(__dirname, "src/styles"),
+            "@machines": path.resolve(__dirname, "src/machines"),
+            "@containers": path.resolve(__dirname, "src/containers"),
         }
     },
     module: {
