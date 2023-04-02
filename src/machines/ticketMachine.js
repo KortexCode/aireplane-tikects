@@ -14,7 +14,7 @@ const fillCountries = {
                     target: "success",
                     actions: assign(
                         {
-                            countries: (context, event) => {console.log(event); return event.data},
+                            countries: (context, event) => event.data,
                         }
                     )
                 },
@@ -51,15 +51,10 @@ const ticketMachine = createMachine(
         states: {
             initial: {
                 on: {
-                    START: {
-                        target: "search",
-                        actions: "imprintInitial"
-                    }
+                    START: "search"
                 }
             },
             search: {
-                entry:"imprintEntry",
-                exit:"imprintExit",
                 on: {
                     CONTINUE: {
                         target: "passenger",
@@ -114,9 +109,6 @@ const ticketMachine = createMachine(
     },
     {
         actions:{
-            imprintInitial: ()=> console.log("a bestia"),
-            imprintEntry: ()=> console.log("Entrada!!"),
-            imprintExit: ()=> console.log("Salida!"),
             cleanContext: assign(
                 {
                     selectedCountry: (context, event) => {
